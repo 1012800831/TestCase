@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF8"?>
+<project name="Jmeter-TestCase" default="run" basedir=".">
+    <tstamp>
+        <format property="time" pattern="yyyyMMddhhmm" />
+    </tstamp>
+
+    <!--jmeter的目录-->
+    <property name="jmeter.home" value="D:\soft\apache-jmeter-4.0" />
+    <property name="jmeter.result.jtl.dir" value="D:\soft\apache-jmeter-4.0\TestCaset\report\jtl" />
+    <property name="jmeter.result.html.dir" value="D:\soft\apache-jmeter-4.0\TestCaset\report\html" />
+
+    <property name="ReportName" value="TestReport" />
+    <property name="jmeter.result.jtlName" value="${jmeter.result.jtl.dir}/${ReportName}${time}.jtl" />
+    <property name="jmeter.result.htmlName" value="${jmeter.result.html.dir}/${ReportName}${time}.html" />
+
+
+    <target name="test">
+        <taskdef name="jmeter" classname="org.programmerplanet.ant.taskdefs.jmeter.JMeterTask" />
+        <jmeter jmeterhome="${jmeter.home}" resultlog="${jmeter.result.jtlName}" >
+            <testplans dir="D:\soft\apache-jmeter-4.0\TestCaset" includes="EITest.jmx" />
+            <property name="jmeter.save.saveservice.output_format" value="xml"/>
+        </jmeter>
+        <jmeter
+    </target>
+
+    <path id="xslt.classpath">
+        <fileset dir="${jmeter.home}/lib" includes="xalan*.jar"/>
+        <fileset dir="${jmeter.home}/lib" includes="serializer*.jar"/>
+    </path>
+
+    <target name="report">
+        <xslt in="${jmeter.result.jtlName}"
+              out="${jmeter.result.htmlName}"
+        style="${jmeter.home}/extras/jmeter-results-detail-report_21.xsl" />
+        <copy todir="${jmeter.result.html.dir}">
+            <fileset dir="${jmeter.home}/extras">
+                <include name="collapse.png" />
+                <include name="expand.png" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="run">
+        <antcall target="test" />
+        <antcall target="report" />
+    </target>
+
+</project>
