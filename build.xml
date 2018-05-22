@@ -20,7 +20,6 @@
             <testplans dir="D:\soft\apache-jmeter-4.0\TestCaset" includes="EITest.jmx" />
             <property name="jmeter.save.saveservice.output_format" value="xml"/>
         </jmeter>
-        <jmeter
     </target>
 
     <path id="xslt.classpath">
